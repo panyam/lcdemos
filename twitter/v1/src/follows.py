@@ -1,5 +1,5 @@
 
-from gen import follows_pb2, follows_pb2_grpc
+import follows_pb2, follows_pb2_grpc
 
 class FollowService(follows_pb2_grpc.FollowServiceServicer):
     def add_to_server(self, server):

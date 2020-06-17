@@ -1,5 +1,5 @@
 
-from gen import tweets_pb2, tweets_pb2_grpc
+import tweets_pb2, tweets_pb2_grpc
 
 class TweetService(tweets_pb2_grpc.TweetServiceServicer):
     def add_to_server(self, server):

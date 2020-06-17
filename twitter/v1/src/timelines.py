@@ -1,5 +1,5 @@
 
-from gen import timelines_pb2, timelines_pb2_grpc
+import timelines_pb2, timelines_pb2_grpc
 
 class TimelineService(timelines_pb2_grpc.TimelineServiceServicer):
     def add_to_server(self, server):
