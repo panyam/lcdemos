@@ -1,5 +1,6 @@
 syntax = "proto3";
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
 
 message Follow {
   string leaderid = 1;
@@ -41,7 +42,7 @@ service FollowService {
     };
   };
 
-  rpc DeleteFollow(DeleteFollowRequest) returns (Follow) {
+  rpc DeleteFollow(DeleteFollowRequest) returns (google.protobuf.Empty) {
     // Create maps to HTTP POST.
     // HTTP request body contains the resource.
     option (google.api.http) = {

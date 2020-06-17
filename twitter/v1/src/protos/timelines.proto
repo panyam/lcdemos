@@ -1,0 +1,39 @@
+syntax = "proto3";
+import "google/api/annotations.proto";
+import "tweets.proto";
+
+service TimelineService {
+    // Returns a user's home timeline with recent N tweets from 
+    // all users the user follows
+    rpc ListTweets(ListTweetsRequest) returns (Timeline) {
+        option (google.api.http) = {
+            get: "/users/{userid=*}/tweets"
+        };
+    }
+
+    // Returns most recent N tweets for a user
+    rpc GetTimeline(ListTweetsRequest) returns (Timeline) {
+        option (google.api.http) = {
+            get: "/users/{userid=*}/timeline"
+        };
+    }
+}
+
+message ListTweetsRequest {
+  string userid = 1;
+
+  // The maximum number of items to return.
+  int32 page_size = 2;
+
+  // The next_page_token value returned from a previous List request, if any.
+  string page_token = 3;
+}
+
+message Timeline {
+    string userid = 1;
+
+    repeated Tweet tweets = 2;
+
+    // Token to retrieve the next page of results, or empty if there are no more results in the list.
+    string next_page_token = 3;
+}

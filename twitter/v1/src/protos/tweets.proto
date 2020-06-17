@@ -1,0 +1,46 @@
+syntax = "proto3";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+message Tweet {
+    uint64 tweetid = 1;
+    string ownerid = 2;
+    uint64 created_at = 3;
+    string contents = 4;
+}
+
+service TweetService {
+  // Creates a new tweet
+  rpc CreateTweet(CreateTweetRequest) returns (Tweet) {
+    option (google.api.http) = {
+      post: "/tweets"
+      body: "tweet"
+    };
+  };
+
+  rpc DeleteTweet(DeleteTweetRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/tweets/{tweetid=*}"
+    };
+  }
+
+  // Returns tweet given its ID
+  rpc GetTweet(GetTweetRequest) returns (Tweet) {
+    option (google.api.http) = {
+      get: "/tweets/{tweetid=*}"
+    };
+  };
+}
+ 
+message CreateTweetRequest {
+    string creator = 1;
+    Tweet tweet = 2;
+}
+ 
+message DeleteTweetRequest {
+    string tweetid = 1;
+}
+ 
+message GetTweetRequest {
+    string tweetid = 1;
+}
