@@ -1,0 +1,77 @@
+syntax = "proto3";
+import "google/api/annotations.proto";
+
+message Follow {
+  string leaderid = 1;
+  string followerid = 2;
+  uint64 created_at = 3;
+}
+
+message GetFollowRequest {
+  // ID of user whose followers or followees are to be fetched.
+  string userid = 1;
+
+  // The maximum number of items to return.
+  int32 page_size = 2;
+
+  // The next_page_token value returned from a previous List request, if any.
+  string page_token = 3;
+}
+
+service FollowService {
+  rpc GetFollowers (GetFollowRequest) returns (GetFollowResponse) {
+    option (google.api.http) = {
+      get: "/users/{userid=*}/follows"
+    };
+  };
+
+  rpc GetFollowees(GetFollowRequest) returns (GetFollowResponse) {
+    option (google.api.http) = {
+      get: "/users/{userid=*}/follows"
+    };
+  };
+
+  rpc CreateFollow(CreateFollowRequest) returns (Follow) {
+    // Create maps to HTTP POST.
+    // HTTP request body contains the resource.
+    option (google.api.http) = {
+      // The `parent` captures the parent resource name, such as "shelves/1".
+      post: "/users/{leader=*}/follows"
+      body: "follower"
+    };
+  };
+
+  rpc DeleteFollow(DeleteFollowRequest) returns (Follow) {
+    // Create maps to HTTP POST.
+    // HTTP request body contains the resource.
+    option (google.api.http) = {
+      // The `parent` captures the parent resource name, such as "shelves/1".
+      delete: "/users/{leader=*}/follows/{follower=*}"
+    };
+  };
+}
+
+message GetFollowResponse {
+  // List of userids in the followers/followees response
+  repeated string userid = 1;
+
+  // Token to retrieve the next page of results, or empty if there are no
+  // more results in the list.
+  string next_page_token = 2;
+}
+
+message CreateFollowRequest {
+  // The parent/leader where the follow is to be created.
+  string leader = 1;
+
+  // ID of the following user
+  string follower = 2;
+}
+
+message DeleteFollowRequest {
+  // The parent/leader where the follow is to be deleted
+  string leader = 1;
+
+  // ID of the following user
+  string follower = 2;
+}
