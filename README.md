@@ -6,7 +6,9 @@ Docker
 
 1. [Download and Install Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac/).
 
-# Environment Specific Setup
+2. Run Docker.  This is needed to start the docker daemon which is then needed to create docker images in each of the projects.
+
+# Cloud Specific Setup
 
 ## Google Cloud
 
@@ -21,4 +23,3 @@ gcloud components install kubectl
 ```
 
 3. Setup a GC Project from [Kubernetes Engine Page](https://console.cloud.google.com/projectselector/kubernetes).
-
