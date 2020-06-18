@@ -2,13 +2,6 @@ syntax = "proto3";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
-message Tweet {
-    uint64 tweetid = 1;
-    string ownerid = 2;
-    uint64 created_at = 3;
-    string contents = 4;
-}
-
 service TweetService {
   // Creates a new tweet
   rpc CreateTweet(CreateTweetRequest) returns (Tweet) {
@@ -30,6 +23,13 @@ service TweetService {
       get: "/tweets/{tweetid=*}"
     };
   };
+}
+
+message Tweet {
+    uint64 tweetid = 1;
+    string ownerid = 2;
+    uint64 created_at = 3;
+    string contents = 4;
 }
  
 message CreateTweetRequest {

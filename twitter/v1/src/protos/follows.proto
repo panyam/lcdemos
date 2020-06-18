@@ -2,23 +2,6 @@ syntax = "proto3";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
-message Follow {
-  string leaderid = 1;
-  string followerid = 2;
-  uint64 created_at = 3;
-}
-
-message GetFollowRequest {
-  // ID of user whose followers or followees are to be fetched.
-  string userid = 1;
-
-  // The maximum number of items to return.
-  int32 page_size = 2;
-
-  // The next_page_token value returned from a previous List request, if any.
-  string page_token = 3;
-}
-
 service FollowService {
   rpc GetFollowers (GetFollowRequest) returns (GetFollowResponse) {
     option (google.api.http) = {
@@ -50,6 +33,23 @@ service FollowService {
       delete: "/users/{leader=*}/follows/{follower=*}"
     };
   };
+}
+
+message Follow {
+  string leaderid = 1;
+  string followerid = 2;
+  uint64 created_at = 3;
+}
+
+message GetFollowRequest {
+  // ID of user whose followers or followees are to be fetched.
+  string userid = 1;
+
+  // The maximum number of items to return.
+  int32 page_size = 2;
+
+  // The next_page_token value returned from a previous List request, if any.
+  string page_token = 3;
 }
 
 message GetFollowResponse {

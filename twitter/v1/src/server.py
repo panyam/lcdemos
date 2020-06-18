@@ -15,7 +15,7 @@ def serve():
     follow_service.add_to_server(server)
     tweet_service.add_to_server(server)
     timeline_service.add_to_server(server)
-    server.add_insecure_port('[::]:8080')
+    server.add_insecure_port('[::]:50051')
     server.start()
     server.wait_for_termination()
 

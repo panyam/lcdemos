@@ -1,4 +1,5 @@
 
+import grpc
 import tweets_pb2, tweets_pb2_grpc
 
 class TweetService(tweets_pb2_grpc.TweetServiceServicer):
