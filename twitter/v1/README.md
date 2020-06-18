@@ -1,9 +1,9 @@
 
 # Setup
 
-Install Golang:
+Install Docker:
 
 ```
 brew update
-brew install golang
+brew install docker
 ```
