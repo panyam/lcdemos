@@ -9,4 +9,5 @@ RUN pip install -r requirements.txt
 
 EXPOSE 50051
 
-CMD ["python", "/app/server.py"]
+CMD ["ls", "-l", "/app/"]
+CMD ["python", "/app/src/server.py"]
