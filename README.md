@@ -1,6 +1,25 @@
 
 # Installing Common Packages:
 
+Python
+------
+
+Install Python2
+===============
+
+Sad but Needed for most gcloud commandline tools - WTF?
+
+```
+pyenv install -f 2.7.17
+```
+
+Install Python 3.8+
+===================
+
+```
+pyenv install -f 3.8.2
+```
+
 Docker
 ------
 

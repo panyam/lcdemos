@@ -16,21 +16,15 @@ service FollowService {
   };
 
   rpc CreateFollow(CreateFollowRequest) returns (Follow) {
-    // Create maps to HTTP POST.
-    // HTTP request body contains the resource.
     option (google.api.http) = {
-      // The `parent` captures the parent resource name, such as "shelves/1".
-      post: "/users/{leader=*}/follows"
+      post: "/users/{leaderid=*}/follows"
       body: "follower"
     };
   };
 
   rpc DeleteFollow(DeleteFollowRequest) returns (google.protobuf.Empty) {
-    // Create maps to HTTP POST.
-    // HTTP request body contains the resource.
     option (google.api.http) = {
-      // The `parent` captures the parent resource name, such as "shelves/1".
-      delete: "/users/{leader=*}/follows/{follower=*}"
+      delete: "/users/{leaderid=*}/follows/{followerid=*}"
     };
   };
 }
@@ -63,16 +57,16 @@ message GetFollowResponse {
 
 message CreateFollowRequest {
   // The parent/leader where the follow is to be created.
-  string leader = 1;
+  string leaderid = 1;
 
   // ID of the following user
-  string follower = 2;
+  string followerid = 2;
 }
 
 message DeleteFollowRequest {
   // The parent/leader where the follow is to be deleted
-  string leader = 1;
+  string leaderid = 1;
 
   // ID of the following user
-  string follower = 2;
+  string followerid = 2;
 }

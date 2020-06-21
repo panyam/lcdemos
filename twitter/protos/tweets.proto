@@ -33,7 +33,7 @@ message Tweet {
 }
  
 message CreateTweetRequest {
-    string creator = 1;
+    string creatorid = 1;
     Tweet tweet = 2;
 }
  

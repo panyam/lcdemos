@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\x0ctweets.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\"O\n\x05Tweet\x12\x0f\n\x07tweetid\x18\x01 \x01(\x04\x12\x0f\n\x07ownerid\x18\x02 \x01(\t\x12\x12\n\ncreated_at\x18\x03 \x01(\x04\x12\x10\n\x08\x63ontents\x18\x04 \x01(\t\"<\n\x12\x43reateTweetRequest\x12\x0f\n\x07\x63reator\x18\x01 \x01(\t\x12\x15\n\x05tweet\x18\x02 \x01(\x0b\x32\x06.Tweet\"%\n\x12\x44\x65leteTweetRequest\x12\x0f\n\x07tweetid\x18\x01 \x01(\t\"\"\n\x0fGetTweetRequest\x12\x0f\n\x07tweetid\x18\x01 \x01(\t2\xee\x01\n\x0cTweetService\x12\x42\n\x0b\x43reateTweet\x12\x13.CreateTweetRequest\x1a\x06.Tweet\"\x16\x82\xd3\xe4\x93\x02\x10\"\x07/tweets:\x05tweet\x12W\n\x0b\x44\x65leteTweet\x12\x13.DeleteTweetRequest\x1a\x16.google.protobuf.Empty\"\x1b\x82\xd3\xe4\x93\x02\x15*\x13/tweets/{tweetid=*}\x12\x41\n\x08GetTweet\x12\x10.GetTweetRequest\x1a\x06.Tweet\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/tweets/{tweetid=*}b\x06proto3'
+  serialized_pb=b'\n\x0ctweets.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\"O\n\x05Tweet\x12\x0f\n\x07tweetid\x18\x01 \x01(\x04\x12\x0f\n\x07ownerid\x18\x02 \x01(\t\x12\x12\n\ncreated_at\x18\x03 \x01(\x04\x12\x10\n\x08\x63ontents\x18\x04 \x01(\t\">\n\x12\x43reateTweetRequest\x12\x11\n\tcreatorid\x18\x01 \x01(\t\x12\x15\n\x05tweet\x18\x02 \x01(\x0b\x32\x06.Tweet\"%\n\x12\x44\x65leteTweetRequest\x12\x0f\n\x07tweetid\x18\x01 \x01(\t\"\"\n\x0fGetTweetRequest\x12\x0f\n\x07tweetid\x18\x01 \x01(\t2\xee\x01\n\x0cTweetService\x12\x42\n\x0b\x43reateTweet\x12\x13.CreateTweetRequest\x1a\x06.Tweet\"\x16\x82\xd3\xe4\x93\x02\x10\"\x07/tweets:\x05tweet\x12W\n\x0b\x44\x65leteTweet\x12\x13.DeleteTweetRequest\x1a\x16.google.protobuf.Empty\"\x1b\x82\xd3\xe4\x93\x02\x15*\x13/tweets/{tweetid=*}\x12\x41\n\x08GetTweet\x12\x10.GetTweetRequest\x1a\x06.Tweet\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/tweets/{tweetid=*}b\x06proto3'
   ,
   dependencies=[google_dot_api_dot_annotations__pb2.DESCRIPTOR,google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,])
 
@@ -87,7 +87,7 @@ _CREATETWEETREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='creator', full_name='CreateTweetRequest.creator', index=0,
+      name='creatorid', full_name='CreateTweetRequest.creatorid', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -113,7 +113,7 @@ _CREATETWEETREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=156,
-  serialized_end=216,
+  serialized_end=218,
 )
 
 
@@ -143,8 +143,8 @@ _DELETETWEETREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=218,
-  serialized_end=255,
+  serialized_start=220,
+  serialized_end=257,
 )
 
 
@@ -174,8 +174,8 @@ _GETTWEETREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=257,
-  serialized_end=291,
+  serialized_start=259,
+  serialized_end=293,
 )
 
 _CREATETWEETREQUEST.fields_by_name['tweet'].message_type = _TWEET
@@ -221,8 +221,8 @@ _TWEETSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=294,
-  serialized_end=532,
+  serialized_start=296,
+  serialized_end=534,
   methods=[
   _descriptor.MethodDescriptor(
     name='CreateTweet',

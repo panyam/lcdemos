@@ -29,7 +29,7 @@ class TimelineServiceServicer(object):
     """Missing associated documentation comment in .proto file"""
 
     def ListTweets(self, request, context):
-        """Returns a user's home timeline with recent N tweets from 
+        """Returns a user's home timeline with recent tweets from 
         all users the user follows
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)

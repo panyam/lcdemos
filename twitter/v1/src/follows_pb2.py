@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=b'\n\rfollows.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\"B\n\x06\x46ollow\x12\x10\n\x08leaderid\x18\x01 \x01(\t\x12\x12\n\nfollowerid\x18\x02 \x01(\t\x12\x12\n\ncreated_at\x18\x03 \x01(\x04\"I\n\x10GetFollowRequest\x12\x0e\n\x06userid\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\"<\n\x11GetFollowResponse\x12\x0e\n\x06userid\x18\x01 \x03(\t\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"7\n\x13\x43reateFollowRequest\x12\x0e\n\x06leader\x18\x01 \x01(\t\x12\x10\n\x08\x66ollower\x18\x02 \x01(\t\"7\n\x13\x44\x65leteFollowRequest\x12\x0e\n\x06leader\x18\x01 \x01(\t\x12\x10\n\x08\x66ollower\x18\x02 \x01(\t2\x8d\x03\n\rFollowService\x12X\n\x0cGetFollowers\x12\x11.GetFollowRequest\x1a\x12.GetFollowResponse\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/users/{userid=*}/follows\x12X\n\x0cGetFollowees\x12\x11.GetFollowRequest\x1a\x12.GetFollowResponse\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/users/{userid=*}/follows\x12Z\n\x0c\x43reateFollow\x12\x14.CreateFollowRequest\x1a\x07.Follow\"+\x82\xd3\xe4\x93\x02%\"\x19/users/{leader=*}/follows:\x08\x66ollower\x12l\n\x0c\x44\x65leteFollow\x12\x14.DeleteFollowRequest\x1a\x16.google.protobuf.Empty\".\x82\xd3\xe4\x93\x02(*&/users/{leader=*}/follows/{follower=*}b\x06proto3'
+  serialized_pb=b'\n\rfollows.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\"B\n\x06\x46ollow\x12\x10\n\x08leaderid\x18\x01 \x01(\t\x12\x12\n\nfollowerid\x18\x02 \x01(\t\x12\x12\n\ncreated_at\x18\x03 \x01(\x04\"I\n\x10GetFollowRequest\x12\x0e\n\x06userid\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\"<\n\x11GetFollowResponse\x12\x0e\n\x06userid\x18\x01 \x03(\t\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\";\n\x13\x43reateFollowRequest\x12\x10\n\x08leaderid\x18\x01 \x01(\t\x12\x12\n\nfollowerid\x18\x02 \x01(\t\";\n\x13\x44\x65leteFollowRequest\x12\x10\n\x08leaderid\x18\x01 \x01(\t\x12\x12\n\nfollowerid\x18\x02 \x01(\t2\x93\x03\n\rFollowService\x12X\n\x0cGetFollowers\x12\x11.GetFollowRequest\x1a\x12.GetFollowResponse\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/users/{userid=*}/follows\x12X\n\x0cGetFollowees\x12\x11.GetFollowRequest\x1a\x12.GetFollowResponse\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/users/{userid=*}/follows\x12\\\n\x0c\x43reateFollow\x12\x14.CreateFollowRequest\x1a\x07.Follow\"-\x82\xd3\xe4\x93\x02\'\"\x1b/users/{leaderid=*}/follows:\x08\x66ollower\x12p\n\x0c\x44\x65leteFollow\x12\x14.DeleteFollowRequest\x1a\x16.google.protobuf.Empty\"2\x82\xd3\xe4\x93\x02,**/users/{leaderid=*}/follows/{followerid=*}b\x06proto3'
   ,
   dependencies=[google_dot_api_dot_annotations__pb2.DESCRIPTOR,google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,])
 
@@ -163,14 +163,14 @@ _CREATEFOLLOWREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='leader', full_name='CreateFollowRequest.leader', index=0,
+      name='leaderid', full_name='CreateFollowRequest.leaderid', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='follower', full_name='CreateFollowRequest.follower', index=1,
+      name='followerid', full_name='CreateFollowRequest.followerid', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -189,7 +189,7 @@ _CREATEFOLLOWREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=281,
-  serialized_end=336,
+  serialized_end=340,
 )
 
 
@@ -201,14 +201,14 @@ _DELETEFOLLOWREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='leader', full_name='DeleteFollowRequest.leader', index=0,
+      name='leaderid', full_name='DeleteFollowRequest.leaderid', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='follower', full_name='DeleteFollowRequest.follower', index=1,
+      name='followerid', full_name='DeleteFollowRequest.followerid', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -226,8 +226,8 @@ _DELETEFOLLOWREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=338,
-  serialized_end=393,
+  serialized_start=342,
+  serialized_end=401,
 )
 
 DESCRIPTOR.message_types_by_name['Follow'] = _FOLLOW
@@ -280,8 +280,8 @@ _FOLLOWSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=396,
-  serialized_end=793,
+  serialized_start=404,
+  serialized_end=807,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetFollowers',
@@ -308,7 +308,7 @@ _FOLLOWSERVICE = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_CREATEFOLLOWREQUEST,
     output_type=_FOLLOW,
-    serialized_options=b'\202\323\344\223\002%\"\031/users/{leader=*}/follows:\010follower',
+    serialized_options=b'\202\323\344\223\002\'\"\033/users/{leaderid=*}/follows:\010follower',
   ),
   _descriptor.MethodDescriptor(
     name='DeleteFollow',
@@ -317,7 +317,7 @@ _FOLLOWSERVICE = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_DELETEFOLLOWREQUEST,
     output_type=google_dot_protobuf_dot_empty__pb2._EMPTY,
-    serialized_options=b'\202\323\344\223\002(*&/users/{leader=*}/follows/{follower=*}',
+    serialized_options=b'\202\323\344\223\002,**/users/{leaderid=*}/follows/{followerid=*}',
   ),
 ])
 _sym_db.RegisterServiceDescriptor(_FOLLOWSERVICE)
