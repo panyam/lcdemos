@@ -11,7 +11,6 @@ proto:
 
 docker: proto
 	PATH=~/.pyenv/versions/2.7.17/bin/:$(PATH) docker build -f app/Dockerfile -t gcr.io/${PROJECT_ID}/${IMAGE_NAME}:latest .
-	# docker build -f app/Dockerfile -t gcr.io/${PROJECT_ID}/${IMAGE_NAME}:latest .
 
 push:
 	docker push gcr.io/${PROJECT_ID}/${IMAGE_NAME}:latest
