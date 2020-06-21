@@ -1,6 +1,16 @@
 
 # Installing Common Packages:
 
+DB Adapters
+-----------
+
+Postgres:
+=========
+
+```
+brew install libpq
+```
+
 Python
 ------
 
