@@ -1,17 +1,15 @@
 
-# Installing Common Packages:
+# Languages and Runtimes
 
-## Languages and Runtimes
-
-### Golang
+## Golang
 
 ```
 brew install golang
 ```
 
-### Python
+## Python
 
-#### Python 2
+### Python 2
 
 Sad but Needed for most gcloud commandline tools - WTF?
 
@@ -19,37 +17,37 @@ Sad but Needed for most gcloud commandline tools - WTF?
 pyenv install -f 2.7.17
 ```
 
-#### Python 3.8+
+### Python 3.8+
 
 ```
 pyenv install -f 3.8.2
 ```
 
-## DB Adapters
+# DB Adapters
 
-### Postgres:
+## Postgres:
 
 ```
 brew install libpq
 ```
 
-## Cloud Environments
+# Cloud Environments
 
-### Docker
+## Docker
 
 1. [Download and Install Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac/).
 
 2. Run Docker.  This is needed to start the docker daemon which is then needed to create docker images in each of the projects.
 
-### Kubernetes Engines
+## Kubernetes Engines
 
-#### Minikube
+### Minikube
 
 1. [Install Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
 
 2. 
 
-#### Google Cloud
+### Google Cloud
 
 0. [Demo App Setup Here](https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app).
 
