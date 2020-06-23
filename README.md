@@ -1,14 +1,6 @@
 
 # Installing Common Packages:
 
-## DB Adapters
-
-### Postgres:
-
-```
-brew install libpq
-```
-
 ## Languages and Runtimes
 
 ### Golang
@@ -33,21 +25,31 @@ pyenv install -f 2.7.17
 pyenv install -f 3.8.2
 ```
 
-## Docker
+## DB Adapters
+
+### Postgres:
+
+```
+brew install libpq
+```
+
+## Cloud Environments
+
+### Docker
 
 1. [Download and Install Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac/).
 
 2. Run Docker.  This is needed to start the docker daemon which is then needed to create docker images in each of the projects.
 
-# Environment Specific Setup
+### Kubernetes Engines
 
-## Minikube
+#### Minikube
 
 1. [Install Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
 
 2. 
 
-## Google Cloud
+#### Google Cloud
 
 0. [Demo App Setup Here](https://cloud.google.com/kubernetes-engine/docs/tutorials/hello-app).
 
