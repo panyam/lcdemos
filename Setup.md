@@ -23,14 +23,6 @@ pyenv install -f 2.7.17
 pyenv install -f 3.8.2
 ```
 
-# DB Adapters
-
-## Postgres:
-
-```
-brew install libpq
-```
-
 # Cloud Environments
 
 ## Docker
@@ -78,4 +70,12 @@ gcloud config set compute/zone us-west1-a
 
 # create the cluster - this will take a while
 gcloud container clusters create ${CLUSTER_NAME}
+```
+
+# DB Adapters
+
+## Postgres:
+
+```
+brew install libpq
 ```
