@@ -11,6 +11,15 @@ Postgres:
 brew install libpq
 ```
 
+Golang
+------
+
+Install Golang
+
+```
+brew install golang
+```
+
 Python
 ------
 
