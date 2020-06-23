@@ -21,7 +21,7 @@ service FollowService {
   rpc CreateFollow(CreateFollowRequest) returns (Follow) {
     option (google.api.http) = {
       post: "/users/{leaderid=*}/follows"
-      body: "follower"
+      body: "followerid"
     };
   };
 

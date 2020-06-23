@@ -35,6 +35,8 @@ Install Protobuf plugins:
 ```
 export GO111MODULE=on  # Enable module mode
 go get github.com/golang/protobuf/protoc-gen-go
+go get github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
+go get github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
 ```
 
 ## Protobuf
