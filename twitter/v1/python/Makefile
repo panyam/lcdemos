@@ -1,16 +1,15 @@
-
 OUT_DIR="./src"
 PROJECT_ID=kooblabs
 IMAGE_NAME=lcdemos-twitter-v1
 CLUSTER_NAME=lcdemos-twitter-v1
-GOPATH := $(shell go env GOPATH)
 
 all: docker
 
-go:
-	cd go && make
+proto:
+	 python -m grpc_tools.protoc -I../protos --python_out=$(OUT_DIR) --grpc_python_out=$(OUT_DIR) ../protos/*.proto
+	 python -m grpc_tools.protoc -I../protos --python_out=$(OUT_DIR) --grpc_python_out=$(OUT_DIR) ../protos/google/api/*.proto 
 
-docker: go
+docker: proto
 	PATH=~/.pyenv/versions/2.7.17/bin/:$(PATH) docker build -f app/Dockerfile -t gcr.io/${PROJECT_ID}/${IMAGE_NAME}:latest .
 
 push:

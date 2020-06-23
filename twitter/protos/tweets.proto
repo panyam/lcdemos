@@ -2,6 +2,9 @@ syntax = "proto3";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
+option go_package = "leetcoach.com/demos/twitter/gen";
+// option go_package = "github.com/panyam/lcdemos/twitter";
+
 service TweetService {
   // Creates a new tweet
   rpc CreateTweet(CreateTweetRequest) returns (Tweet) {

@@ -2,6 +2,9 @@ syntax = "proto3";
 import "google/api/annotations.proto";
 import "tweets.proto";
 
+option go_package = "leetcoach.com/demos/twitter/gen";
+// option go_package = "github.com/panyam/lcdemos/twitter";
+
 service TimelineService {
   // Returns a user's home timeline with recent tweets from 
   // all users the user follows

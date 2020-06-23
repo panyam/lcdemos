@@ -30,6 +30,19 @@ brew update
 brew upgrade golang
 ```
 
+Install Protobuf plugins:
+
+```
+export GO111MODULE=on  # Enable module mode
+go get github.com/golang/protobuf/protoc-gen-go
+```
+
+## Protobuf
+
+```
+brew install protobuf
+```
+
 # Cloud Environments
 
 ## Docker
