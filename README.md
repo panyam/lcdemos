@@ -1,30 +1,25 @@
 
 # Installing Common Packages:
 
-DB Adapters
------------
+## DB Adapters
 
-Postgres:
-=========
+### Postgres:
 
 ```
 brew install libpq
 ```
 
-Golang
-------
+## Languages and Runtimes
 
-Install Golang
+### Golang
 
 ```
 brew install golang
 ```
 
-Python
-------
+### Python
 
-Install Python2
-===============
+#### Python 2
 
 Sad but Needed for most gcloud commandline tools - WTF?
 
@@ -32,15 +27,13 @@ Sad but Needed for most gcloud commandline tools - WTF?
 pyenv install -f 2.7.17
 ```
 
-Install Python 3.8+
-===================
+#### Python 3.8+
 
 ```
 pyenv install -f 3.8.2
 ```
 
-Docker
-------
+## Docker
 
 1. [Download and Install Docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac/).
 
