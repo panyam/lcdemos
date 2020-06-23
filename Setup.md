@@ -1,12 +1,6 @@
 
 # Languages and Runtimes
 
-## Golang
-
-```
-brew install golang
-```
-
 ## Python
 
 ### Python 2
@@ -21,6 +15,19 @@ pyenv install -f 2.7.17
 
 ```
 pyenv install -f 3.8.2
+```
+
+## Golang
+
+```
+brew install golang
+```
+
+Ensure go version is uptodate:
+
+```
+brew update
+brew upgrade golang
 ```
 
 # Cloud Environments
