@@ -2,10 +2,10 @@ package main
 
 import (
 	// "encoding/json"
-	"crypto/tls"
 	"flag"
 	"fmt"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	// "google.golang.org/grpc/credentials"
 	// "google.golang.org/grpc/testdata"
@@ -14,107 +14,74 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"sync"
 	// "strings"
 )
 
-type GrpcServer struct {
-	port   Int
-	ipConn *net.IPConn
-	server *grpc.Server
-}
-
-type HttpServer struct {
-	port    Int
-	addr    string
-	ipConn  *net.IPConn
-	httpMux *ServeMux
-	grpcMux *ServeMux
-	server  *http.Server
-}
-
-func NewHttpServer(httpPort Int) {
+func StartHttpServer(httpPort int, callback func(mux *http.ServeMux, gmux *runtime.ServeMux) error) {
 	mux := http.NewServeMux()
 	gmux := runtime.NewServeMux()
 	addr := fmt.Sprintf(":%d", httpPort)
-	ipConn, err := net.Listen("tcp", fmt.Sprintf(":%d", httpPort))
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
-	server := &http.Server{
-		Addr:      addr,
-		Handler:   handlerFunc,
-		TLSConfig: nil,
-	}
-
 	mux.Handle("/", gmux)
 
-	httpServer = &HttpServer{
-		httpMux: mux,
-		grpcMux: gmux,
-		port:    httpPort,
-		addr:    addr,
-		ipConn:  ipConn,
-		server:  server,
+	callback(mux, gmux)
+	server := &http.Server{
+		Addr:    addr,
+		Handler: mux,
 	}
-	return httpServer
+	server.ListenAndServe()
 }
 
-func NewGrpcServer(grpcPort Int) *grpc.Server {
+func StartGrpcServer(grpcPort int, callback func(*grpc.Server) error) *grpc.Server {
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", grpcPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	server := grpc.NewServer()
-	grpcServer = &GrpcServer{
-		ipConn: lis,
-		server: server,
-		port:   grpcPort,
-	}
-	return grpcServer
+	callback(server)
+	server.Serve(lis)
+	return server
 }
 
 var (
-	tls      = flag.Bool("tls", false, "Connection uses TLS if true, else plain TCP")
-	certFile = flag.String("cert_file", "", "The TLS cert file")
-	keyFile  = flag.String("key_file", "", "The TLS key file")
 	httpPort = flag.Int("http_port", 8080, "The HTTP server port")
 	grpcPort = flag.Int("grpc_port", 10000, "The GRPC server port")
 )
 
 func main() {
 	flag.Parse()
-	grpcServer := NewGrpcServer(*grpcPort)
-	gen.RegisterTimelineServiceServer(grpcServer.server, services.NewTimelineService())
-	gen.RegisterTweetServiceServer(grpcServer.server, services.NewTweetService())
-	gen.RegisterFollowServiceServer(grpcServer.server, services.NewFollowService())
 
-	httpServer := NewHttpServer(*httpPort)
-	dopts := []grpc.DialOption{}
-	err := gen.RegisterFollowServiceHandlerFromEndpoint(httpServer.ctx, httpServer.gmux, httpServer.addr, dopts)
-	if err != nil {
-		fmt.Printf("serve: %v\n", err)
-		return nil
-	}
-	err := gen.RegisterTweetServiceHandlerFromEndpoint(httpServer.ctx, httpServer.gmux, httpServer.addr, dopts)
-	if err != nil {
-		fmt.Printf("serve: %v\n", err)
-		return nil
-	}
-	err := gen.RegisterTimelineServiceHandlerFromEndpoint(httpServer.ctx, httpServer.gmux, httpServer.addr, dopts)
-	if err != nil {
-		fmt.Printf("serve: %v\n", err)
-		return nil
-	}
+	wg := new(sync.WaitGroup)
+	wg.Add(2)
 
-	/*
-		httpServer.httpMuxes["/swagger/tweets.json"].HandleFunc("/swagger/tweets.json", func(w http.ResponseWriter, req *http.Request) {
-			io.Copy(w, strings.NewReader(pb.Swagger))
-		})
-		httpServer.httpMuxes["/swagger/timeline.json"].HandleFunc("/swagger/timeline.json", func(w http.ResponseWriter, req *http.Request) {
-			io.Copy(w, strings.NewReader(pb.Swagger))
-		})
-		httpServer.httpMuxes["/swagger/follows.json"].HandleFunc("/swagger/follows.json", func(w http.ResponseWriter, req *http.Request) {
-			io.Copy(w, strings.NewReader(pb.Swagger))
-		})
-	*/
+	go StartGrpcServer(*grpcPort, func(server *grpc.Server) error {
+		gen.RegisterTimelineServiceServer(server, services.NewTimelineService())
+		gen.RegisterTweetServiceServer(server, services.NewTweetService())
+		gen.RegisterFollowServiceServer(server, services.NewFollowService())
+		return nil
+	})
+
+	go StartHttpServer(*httpPort, func(mux *http.ServeMux, gmux *runtime.ServeMux) error {
+		ctx := context.Background()
+		addr := fmt.Sprintf(":%d", httpPort)
+		dopts := []grpc.DialOption{}
+		err := gen.RegisterFollowServiceHandlerFromEndpoint(ctx, gmux, addr, dopts)
+		if err != nil {
+			fmt.Printf("serve: %v\n", err)
+			return err
+		}
+		err = gen.RegisterTweetServiceHandlerFromEndpoint(ctx, gmux, addr, dopts)
+		if err != nil {
+			fmt.Printf("serve: %v\n", err)
+			return err
+		}
+		err = gen.RegisterTimelineServiceHandlerFromEndpoint(ctx, gmux, addr, dopts)
+		if err != nil {
+			fmt.Printf("serve: %v\n", err)
+			return err
+		}
+		return nil
+	})
+
+	wg.Wait()
 }
