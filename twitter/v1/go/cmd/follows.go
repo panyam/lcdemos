@@ -32,8 +32,7 @@ var followsCmd = &cobra.Command{
 var followsCreateCmd = &cobra.Command{
 	Use: "create",
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Println("cmd, args: ", cmd, args)
-		connect(grpcAddr(), func(conn *grpc.ClientConn) {
+		connect(grpcAddr(), func(conn *grpc.ClientConn) error {
 			ctx := context.Background()
 			client := gen.NewFollowServiceClient(conn)
 			for i := 0; i < len(args); i += 2 {
@@ -41,11 +40,11 @@ var followsCreateCmd = &cobra.Command{
 				request := &gen.CreateFollowRequest{Followerid: args[i], Leaderid: args[i+1]}
 				_, err := client.CreateFollow(ctx, request)
 				if err != nil {
-					log.Println(err)
-				} else {
-					log.Println("Deleted")
+					return err
 				}
+				log.Println("Deleted")
 			}
+			return nil
 		})
 	},
 }
@@ -54,7 +53,7 @@ var followsCreateCmd = &cobra.Command{
 var followsDeleteCmd = &cobra.Command{
 	Use: "delete",
 	Run: func(cmd *cobra.Command, args []string) {
-		connect(grpcAddr(), func(conn *grpc.ClientConn) {
+		connect(grpcAddr(), func(conn *grpc.ClientConn) error {
 			ctx := context.Background()
 			client := gen.NewFollowServiceClient(conn)
 			for i := 0; i < len(args); i += 2 {
@@ -62,11 +61,11 @@ var followsDeleteCmd = &cobra.Command{
 				_, err := client.DeleteFollow(ctx, &request)
 				log.Printf("Follow: (%s -> %s): ", args[i], args[i+1])
 				if err != nil {
-					log.Println(err)
-				} else {
-					log.Println("Created")
+					return err
 				}
+				log.Println("Created")
 			}
+			return nil
 		})
 	},
 }
@@ -75,18 +74,17 @@ var followsDeleteCmd = &cobra.Command{
 var followsListCmd = &cobra.Command{
 	Use: "list",
 	Run: func(cmd *cobra.Command, args []string) {
-		connect(grpcAddr(), func(conn *grpc.ClientConn) {
+		connect(grpcAddr(), func(conn *grpc.ClientConn) error {
 			ctx := context.Background()
 			client := gen.NewFollowServiceClient(conn)
 			request := gen.GetFollowRequest{Userid: args[0], PageSize: int32(pageSize)}
-			GetFollowResponse, err := client.GetFollowers(ctx, &request)
+			response, err := client.GetFollowers(ctx, &request)
 			log.Printf("Followers of %s: ", args[0])
 			if err != nil {
-				log.Println(err)
-				return
-			} else {
-				log.Println(*GetFollowResponse)
+				return err
 			}
+			log.Println(response)
+			return nil
 		})
 	},
 }
@@ -95,18 +93,17 @@ var followsListCmd = &cobra.Command{
 var followsListUpCmd = &cobra.Command{
 	Use: "listup",
 	Run: func(cmd *cobra.Command, args []string) {
-		connect(grpcAddr(), func(conn *grpc.ClientConn) {
+		connect(grpcAddr(), func(conn *grpc.ClientConn) error {
 			ctx := context.Background()
 			client := gen.NewFollowServiceClient(conn)
 			request := gen.GetFollowRequest{Userid: args[0], PageSize: int32(pageSize)}
-			GetFollowResponse, err := client.GetFollowees(ctx, &request)
+			response, err := client.GetFollowees(ctx, &request)
 			log.Printf("Followees of %s: ", args[0])
 			if err != nil {
-				log.Println(err)
-				return
-			} else {
-				log.Println(*GetFollowResponse)
+				return err
 			}
+			log.Println(response)
+			return nil
 		})
 	},
 }

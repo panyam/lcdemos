@@ -17,23 +17,36 @@ package cmd
 
 import (
 	"fmt"
-
 	"github.com/spf13/cobra"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc"
+	"leetcoach.com/demos/twitter/gen"
+	"log"
 )
 
 // tweetsCmd represents the tweets command
 var tweetsCmd = &cobra.Command{
 	Use: "tweets",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("tweets called")
-	},
 }
 
 // createCmd represents the create command
 var tweetsCreateCmd = &cobra.Command{
 	Use: "create",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("create called")
+		connect(grpcAddr(), func(conn *grpc.ClientConn) error {
+			ctx := context.Background()
+			client := gen.NewTweetServiceClient(conn)
+			creatorid := args[0]
+			contents := args[1]
+			tweet := &gen.Tweet{Ownerid: creatorid, Contents: contents}
+			request := &gen.CreateTweetRequest{Creatorid: creatorid, Tweet: tweet}
+			tweet, err := client.CreateTweet(ctx, request)
+			if err != nil {
+				return err
+			}
+			log.Println("Tweet Created: ", tweet)
+			return nil
+		})
 	},
 }
 
