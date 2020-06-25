@@ -16,7 +16,6 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -38,11 +37,12 @@ var followsCreateCmd = &cobra.Command{
 			client := gen.NewFollowServiceClient(conn)
 			for i := 0; i <= len(args); i += 2 {
 				request := gen.CreateFollowRequest{Followerid: args[i], Leaderid: args[i+1]}
-				follow, err := client.CreateFollow(ctx, &request)
+				_, err := client.CreateFollow(ctx, &request)
+				log.Printf("Follow: (%s -> %s): ", args[i], args[i+1])
 				if err != nil {
-					log.Printf("Could not create follow (%s -> %s)\n", args[i], args[i+1])
+					log.Println(err)
 				} else {
-					log.Print("Created Follow: ", follow)
+					log.Println("Deleted")
 				}
 			}
 		})
@@ -53,7 +53,20 @@ var followsCreateCmd = &cobra.Command{
 var followsDeleteCmd = &cobra.Command{
 	Use: "delete",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("delete called")
+		connect(grpcAddr(), func(conn *grpc.ClientConn) {
+			ctx := context.Background()
+			client := gen.NewFollowServiceClient(conn)
+			for i := 0; i <= len(args); i += 2 {
+				request := gen.DeleteFollowRequest{Followerid: args[i], Leaderid: args[i+1]}
+				_, err := client.DeleteFollow(ctx, &request)
+				log.Printf("Follow: (%s -> %s): ", args[i], args[i+1])
+				if err != nil {
+					log.Println(err)
+				} else {
+					log.Println("Created")
+				}
+			}
+		})
 	},
 }
 
@@ -61,7 +74,19 @@ var followsDeleteCmd = &cobra.Command{
 var followsListCmd = &cobra.Command{
 	Use: "list",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
+		connect(grpcAddr(), func(conn *grpc.ClientConn) {
+			ctx := context.Background()
+			client := gen.NewFollowServiceClient(conn)
+			request := gen.GetFollowRequest{Userid: args[0], PageSize: int32(pageSize)}
+			GetFollowResponse, err := client.GetFollowers(ctx, &request)
+			log.Printf("Followers of %s: ", args[0])
+			if err != nil {
+				log.Println(err)
+				return
+			} else {
+				log.Println(*GetFollowResponse)
+			}
+		})
 	},
 }
 
@@ -69,7 +94,19 @@ var followsListCmd = &cobra.Command{
 var followsListUpCmd = &cobra.Command{
 	Use: "listup",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("listup called")
+		connect(grpcAddr(), func(conn *grpc.ClientConn) {
+			ctx := context.Background()
+			client := gen.NewFollowServiceClient(conn)
+			request := gen.GetFollowRequest{Userid: args[0], PageSize: int32(pageSize)}
+			GetFollowResponse, err := client.GetFollowees(ctx, &request)
+			log.Printf("Followees of %s: ", args[0])
+			if err != nil {
+				log.Println(err)
+				return
+			} else {
+				log.Println(*GetFollowResponse)
+			}
+		})
 	},
 }
 
