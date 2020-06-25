@@ -13,3 +13,12 @@ proto:
 	PATH="$(PATH):$(GOPATH)/bin" protoc -I ../../protos/ ../../protos/*.proto --grpc-gateway_out=logtostderr=true,paths=source_relative:./gen
 	go install
 
+docker: proto
+	PATH=~/.pyenv/versions/2.7.17/bin/:$(PATH) docker build -f app/Dockerfile -t gcr.io/${PROJECT_ID}/${IMAGE_NAME}:latest .
+
+push:
+	docker push gcr.io/${PROJECT_ID}/${IMAGE_NAME}:latest
+
+ensurecluster:
+	kubectl create deployment ${CLUSTER_NAME} --image=gcr.io/${PROJECT_ID}/lcdemos-twitter-v1:latest
+	kubectl scale deployment ${CLUSTER_NAME} --replicas=3

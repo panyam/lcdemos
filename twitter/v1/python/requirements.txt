@@ -1,6 +1,0 @@
-Flask==1.1.1
-requests
-jinja2
-grpcio
-grpcio-tools
-psycopg2-binary
