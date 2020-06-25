@@ -61,20 +61,20 @@ func RunServe(cmd *cobra.Command, args []string) {
 	go StartHttpServer(httpPort, func(mux *http.ServeMux, gmux *runtime.ServeMux) error {
 		ctx := context.Background()
 		addr := fmt.Sprintf(":%d", httpPort)
-		dopts := []grpc.DialOption{}
+		dopts := []grpc.DialOption{grpc.WithInsecure()}
 		err := gen.RegisterFollowServiceHandlerFromEndpoint(ctx, gmux, addr, dopts)
 		if err != nil {
-			fmt.Printf("serve: %v\n", err)
+			fmt.Printf("Follow Service Registration Error: %v\n", err)
 			return err
 		}
 		err = gen.RegisterTweetServiceHandlerFromEndpoint(ctx, gmux, addr, dopts)
 		if err != nil {
-			fmt.Printf("serve: %v\n", err)
+			fmt.Printf("Tweets Service Registration Error: %v\n", err)
 			return err
 		}
 		err = gen.RegisterTimelineServiceHandlerFromEndpoint(ctx, gmux, addr, dopts)
 		if err != nil {
-			fmt.Printf("serve: %v\n", err)
+			fmt.Printf("Timeline Service Registration Error: %v\n", err)
 			return err
 		}
 		return nil
@@ -89,13 +89,15 @@ func StartHttpServer(httpPort int, callback func(mux *http.ServeMux, gmux *runti
 	addr := fmt.Sprintf(":%d", httpPort)
 	mux.Handle("/", gmux)
 
-	callback(mux, gmux)
-	server := &http.Server{
-		Addr:    addr,
-		Handler: mux,
+	err := callback(mux, gmux)
+	if err == nil {
+		server := &http.Server{
+			Addr:    addr,
+			Handler: mux,
+		}
+		fmt.Printf("Starting Http Server on port %d ...\n", httpPort)
+		server.ListenAndServe()
 	}
-	fmt.Printf("Starting Http Server on port %d ...\n", httpPort)
-	server.ListenAndServe()
 }
 
 func StartGrpcServer(grpcPort int, callback func(*grpc.Server) error) *grpc.Server {
@@ -104,8 +106,10 @@ func StartGrpcServer(grpcPort int, callback func(*grpc.Server) error) *grpc.Serv
 		log.Fatalf("failed to listen: %v", err)
 	}
 	server := grpc.NewServer()
-	callback(server)
-	fmt.Printf("Starting GRPC Server on port %d ...\n", grpcPort)
-	server.Serve(lis)
+	err = callback(server)
+	if err == nil {
+		fmt.Printf("Starting GRPC Server on port %d ...\n", grpcPort)
+		server.Serve(lis)
+	}
 	return server
 }

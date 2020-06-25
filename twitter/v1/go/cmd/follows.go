@@ -32,13 +32,14 @@ var followsCmd = &cobra.Command{
 var followsCreateCmd = &cobra.Command{
 	Use: "create",
 	Run: func(cmd *cobra.Command, args []string) {
+		log.Println("cmd, args: ", cmd, args)
 		connect(grpcAddr(), func(conn *grpc.ClientConn) {
 			ctx := context.Background()
 			client := gen.NewFollowServiceClient(conn)
-			for i := 0; i <= len(args); i += 2 {
-				request := gen.CreateFollowRequest{Followerid: args[i], Leaderid: args[i+1]}
-				_, err := client.CreateFollow(ctx, &request)
+			for i := 0; i < len(args); i += 2 {
 				log.Printf("Follow: (%s -> %s): ", args[i], args[i+1])
+				request := &gen.CreateFollowRequest{Followerid: args[i], Leaderid: args[i+1]}
+				_, err := client.CreateFollow(ctx, request)
 				if err != nil {
 					log.Println(err)
 				} else {
@@ -56,7 +57,7 @@ var followsDeleteCmd = &cobra.Command{
 		connect(grpcAddr(), func(conn *grpc.ClientConn) {
 			ctx := context.Background()
 			client := gen.NewFollowServiceClient(conn)
-			for i := 0; i <= len(args); i += 2 {
+			for i := 0; i < len(args); i += 2 {
 				request := gen.DeleteFollowRequest{Followerid: args[i], Leaderid: args[i+1]}
 				_, err := client.DeleteFollow(ctx, &request)
 				log.Printf("Follow: (%s -> %s): ", args[i], args[i+1])

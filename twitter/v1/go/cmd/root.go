@@ -98,12 +98,13 @@ func initConfig() {
 }
 
 func connect(addr string, beforeClose func(conn *grpc.ClientConn)) {
-	conn, err := grpc.Dial(addr)
+	conn, err := grpc.Dial(addr, grpc.WithInsecure())
 	if err != nil {
-		log.Println("serve: %v\n", err)
+		log.Println("Serving Error: ", err)
+	} else {
+		beforeClose(conn)
+		defer conn.Close()
 	}
-	beforeClose(conn)
-	defer conn.Close()
 }
 
 func grpcAddr() string {

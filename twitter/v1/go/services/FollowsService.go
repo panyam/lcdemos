@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"errors"
 	// "encoding/json"
 	// "fmt"
 	// "github.com/golang/protobuf/proto"
@@ -21,19 +22,19 @@ type FollowService struct {
 
 // Returns tweet given its ID
 func (ts *FollowService) GetFollowers(context.Context, *gen.GetFollowRequest) (*gen.GetFollowResponse, error) {
-	return nil, nil
+	return nil, errors.New("Not Implemented")
 }
 
 func (ts *FollowService) GetFollowees(context.Context, *gen.GetFollowRequest) (*gen.GetFollowResponse, error) {
-	return nil, nil
+	return nil, errors.New("Not Implemented")
 }
 
 func (ts *FollowService) CreateFollow(context.Context, *gen.CreateFollowRequest) (*gen.Follow, error) {
-	return nil, nil
+	return nil, errors.New("Not Implemented")
 }
 
 func (ts *FollowService) DeleteFollow(context.Context, *gen.DeleteFollowRequest) (*empty.Empty, error) {
-	return nil, nil
+	return nil, errors.New("Not Implemented")
 }
 
 func NewFollowService() *FollowService {
