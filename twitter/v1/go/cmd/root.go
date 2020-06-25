@@ -1,14 +1,35 @@
+/*
+Copyright © 2020 Sriram Panyam <sri.panyam@gmail.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"google.golang.org/grpc"
 )
 
 var cfgFile string
+var grpcPort int
+var grpcHost string
+var pageOffset int
+var pageSize int
 
 // This represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -50,6 +71,10 @@ func init() {
 	// Cobra supports Persistent Flags, which, if defined here,
 	// will be global for your application.
 
+	rootCmd.PersistentFlags().StringVarP(&grpcHost, "grpcHost", "", "localhost", "Host to run GRPC server or client on")
+	rootCmd.PersistentFlags().IntVarP(&grpcPort, "grpcPort", "g", 10000, "Port to run GRPC server or client on")
+	rootCmd.PersistentFlags().IntVarP(&pageOffset, "pageOffset", "", 0, "Offset into the results for a paginated response")
+	rootCmd.PersistentFlags().IntVarP(&pageSize, "pageSize", "", 1000, "Size of a page in a paginated response")
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.lcdemos/twitter.yaml)")
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
@@ -70,4 +95,17 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
+}
+
+func connect(addr string, beforeClose func(conn *grpc.ClientConn)) {
+	conn, err := grpc.Dial(addr)
+	if err != nil {
+		log.Println("serve: %v\n", err)
+	}
+	beforeClose(conn)
+	defer conn.Close()
+}
+
+func grpcAddr() string {
+	return fmt.Sprintf("%s:%d", grpcHost, grpcPort)
 }

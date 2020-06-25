@@ -1,5 +1,5 @@
 /*
-Copyright © 2020 NAME HERE <EMAIL ADDRESS>
+Copyright © 2020 Sriram Panyam <sri.panyam@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -36,18 +36,11 @@ import (
 // serveCmd represents the serve command
 var serveCmd = &cobra.Command{
 	Use:   "serve",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: Run,
+	Short: "Serves the Http and Grpc servers for our API",
+	Run:   RunServe,
 }
 
 var httpPort int
-var grpcPort int
 
 func init() {
 	rootCmd.AddCommand(serveCmd)
@@ -60,10 +53,9 @@ func init() {
 	// is called directly, e.g.:
 	// serveCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	serveCmd.Flags().IntVarP(&httpPort, "httpPort", "p", 8080, "Port to run HTTP server on")
-	serveCmd.Flags().IntVarP(&grpcPort, "grpcPort", "g", 10000, "Port to run GRPC server on")
 }
 
-func Run(cmd *cobra.Command, args []string) {
+func RunServe(cmd *cobra.Command, args []string) {
 	wg := new(sync.WaitGroup)
 	wg.Add(2)
 
