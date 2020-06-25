@@ -1,4 +1,5 @@
 !lib/README.md
+go.sum
 node_modules
 .clasp.json
 testdefvals.ts

@@ -32,6 +32,11 @@ func (ts *TweetService) GetTweet(context.Context, *gen.GetTweetRequest) (*gen.Tw
 	return nil, nil
 }
 
+// BatchGet's tweets given IDs
+func (ts *TweetService) BatchGetTweets(context.Context, *gen.BatchGetTweetsRequest) (*gen.BatchGetTweetsResponse, error) {
+	return nil, nil
+}
+
 func NewTweetService() *TweetService {
 	t := &TweetService{}
 	return t

@@ -26,6 +26,13 @@ service TweetService {
       get: "/tweets/{tweetid=*}"
     };
   };
+
+  // BatchGet's tweets by IDs
+  rpc BatchGetTweets(BatchGetTweetsRequest) returns (BatchGetTweetsResponse) {
+    option (google.api.http) = {
+      get: "/tweets:batchGet"
+    };
+  };
 }
 
 message Tweet {
@@ -46,4 +53,12 @@ message DeleteTweetRequest {
  
 message GetTweetRequest {
     string tweetid = 1;
+}
+
+message BatchGetTweetsRequest {
+    repeated string tweetids = 1;
+}
+
+message BatchGetTweetsResponse {
+    map<string, Tweet> tweets = 1;
 }

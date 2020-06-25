@@ -1,5 +1,5 @@
 /*
-Copyright © 2020 NAME HERE <EMAIL ADDRESS>
+Copyright © 2020 Sriram Panyam <sri.panyam@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,19 +16,59 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/spf13/cobra"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc"
+	"leetcoach.com/demos/twitter/gen"
 )
 
 // timelineCmd represents the timeline command
 var timelineCmd = &cobra.Command{
 	Use: "timeline",
+}
+
+// timelineSelfCmd represents the list command
+var timelineSelfCmd = &cobra.Command{
+	Use: "self",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("timeline called")
+		connect(grpcAddr(), func(conn *grpc.ClientConn) error {
+			ctx := context.Background()
+			client := gen.NewTimelineServiceClient(conn)
+			userid := args[0]
+			request := &gen.ListTweetsRequest{Userid: userid}
+			response, err := client.ListTweets(ctx, request)
+			if err != nil {
+				return err
+			}
+			log.Printf("Self Timeline for (%d): \n", userid, response)
+			return nil
+		})
+	},
+}
+
+// timelineHomeCmd represents the list command
+var timelineHomeCmd = &cobra.Command{
+	Use: "home",
+	Run: func(cmd *cobra.Command, args []string) {
+		connect(grpcAddr(), func(conn *grpc.ClientConn) error {
+			ctx := context.Background()
+			client := gen.NewTimelineServiceClient(conn)
+			userid := args[0]
+			request := &gen.ListTweetsRequest{Userid: userid}
+			response, err := client.GetTimeline(ctx, request)
+			if err != nil {
+				return err
+			}
+			log.Printf("Home Timeline for (%d): \n", userid, response)
+			return nil
+		})
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(timelineCmd)
+	timelineCmd.AddCommand(timelineSelfCmd)
+	timelineCmd.AddCommand(timelineHomeCmd)
 }

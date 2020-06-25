@@ -11,6 +11,5 @@ proto:
 	PATH="$(PATH):$(GOPATH)/bin" protoc -I ../../protos/ ../../protos/*.proto --go_out=plugins=grpc:./gen --go_opt=paths=source_relative
 	PATH="$(PATH):$(GOPATH)/bin" protoc -I ../../protos/ ../../protos/*.proto --swagger_out=logtostderr=true:./gen
 	PATH="$(PATH):$(GOPATH)/bin" protoc -I ../../protos/ ../../protos/*.proto --grpc-gateway_out=logtostderr=true,paths=source_relative:./gen
+	go install
 
-run:
-	go run server.go
